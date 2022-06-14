@@ -1,0 +1,58 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="TextBox" x:Key="MessageBox">
+        <Setter Property="Foreground" Value="Gray"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border CornerRadius="8"
+                            Background="White"
+                            >
+                        <Grid>
+                            <!--Свойство TextWrapping позволяет переносить текст при установке этого свойства TextWrapping="Wrap".-->
+                            <!--CaretBrush Получает или задает кисть, задающую цвет курсора поля пароля.-->
+                            <!--TwoWay: оба объекта - применки и источник могут изменять привязанные свойства друг друга.-->
+                            <!--TextBlock Элемент предназначен для вывода текстовой информации, для создания простых надписей:-->
+                            <TextBox VerticalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Stretch"
+                                     x:Name="MessageBox"
+                                     Background="Transparent"
+                                     TextWrapping="Wrap"
+                                     BorderThickness="0"
+                                     Foreground="Black"
+                                     CaretBrush="Gray"
+                                     Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     >
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding SendCommand}" Key="Return"/>
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <!--Если вдруг мы не хотим, чтобы элемент генерировал события мыши, то мы можем у него установить свойство IsHitTestVisible="False"-->
+                            <TextBlock 
+                                IsHitTestVisible="False"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Foreground="Black"
+                                >
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=MessageBox}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+</ResourceDictionary>

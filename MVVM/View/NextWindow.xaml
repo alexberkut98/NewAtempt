@@ -1,0 +1,194 @@
+﻿<Window x:Class="Новая_попытка.MVVM.View.NextWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Новая_попытка.MVVM.View"
+        mc:Ignorable="d"
+        xmlns:viewmodel="clr-namespace:Новая_попытка.MVVM.ViewModel"
+        Title="NextWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--Grid - контейнер, состоящий из столбцов и строк,
+            число которых определяет разработчик-->
+        <!--Border - Задний фон элемента WPF-->
+        <Border Grid.ColumnSpan="2" 
+                Background="Blue" 
+                >
+            <!--Свойство HorizontalAlignment выравнивает элемент по горизонтали 
+            относительно правой или левой стороны контейнера 
+            и соответственно может принимать значения Left, Right, 
+            Center (положение по центру), 
+            Stretch (растяжение по всей ширине).-->
+
+            <Grid HorizontalAlignment="Stretch">
+                <Label Content="MyChat" Foreground="Gray" FontWeight="SemiBold"/>
+
+                <!--StackPanel  располагает все элементы в ряд либо по горизонтали, 
+                либо по вертикали в зависимости от ориентации.-->
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                    <Button 
+                        Width="20" 
+                        Height="20" 
+                        Content="_"
+                        Background="Transparent" 
+                        BorderThickness="0"
+                        Foreground="Gray"
+                        FontWeight="Bold"
+                        Command="{Binding Mini1}"
+                        />
+
+                    <Button 
+                        Width="20" 
+                        Height="20" 
+                        Content="□"
+                        Background="Transparent" 
+                        BorderThickness="0"
+                        Foreground="Gray"
+                        FontWeight="Bold"
+                        Command="{Binding ChangeStation}"
+                        />
+
+                    <Button 
+                        Width="20" 
+                        Height="20" 
+                        Content="X"
+                        Background="Transparent" 
+                        BorderThickness="0"
+                        Foreground="Gray"
+                        FontWeight="Bold"
+                        Command="{Binding Closing}"
+                        />
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+        <Grid Background="White" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <DockPanel>
+                <!--PropertyChanged: источник привязки обновляется сразу после обновления свойства в приемнике-->
+            </DockPanel>
+            <Label
+                Content="Contacts"
+                VerticalAlignment="Center"
+                FontWeight="Medium"
+                Foreground="Gray"
+                Margin="0,0,0,0"
+                />
+
+            <ListView
+                ItemsSource="{Binding Contacts,UpdateSourceTrigger=PropertyChanged}"               
+                Background="Transparent"
+                BorderThickness="0"
+                Grid.Row="1"
+                ItemContainerStyle="{StaticResource ContactCard}"
+                SelectedItem="{Binding SelectedContact}"
+                Margin="0,0,0,0"
+                >
+
+            </ListView>
+
+            <StackPanel 
+                Grid.Row="2"
+                Orientation="Horizontal"
+                Background="Beige"
+                Margin="0,0,0,0"
+                >
+                <Border 
+                   CornerRadius="25"
+                   Width="30"
+                   Height="30"
+                   Background="Green" 
+                    />
+                <StackPanel VerticalAlignment="Center">
+                    <Label 
+                        Content="UserName"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        Margin="0,-5,0,-5"
+                        />
+                    <Label 
+                        Content="CustomStatus"
+                        Foreground="Gray"
+                        FontWeight="SemiBold"
+                        FontSize="10"
+                        Margin="0,-8,0,-5"
+                        />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+
+            <Border BorderBrush="White"
+                    BorderThickness="0,0,0,2">
+                <Grid HorizontalAlignment="Stretch">
+                    <Label 
+                        Content="@UserName"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        />
+                </Grid>
+            </Border>
+            <!--ItemContainerStyle Возвращает или задает Style, применяемый к элементу контейнера, созданного для каждого элемента.-->
+            <ListView ItemsSource="{Binding Messages,UpdateSourceTrigger=PropertyChanged}" 
+                      Background="Transparent" 
+                      BorderThickness="0"
+                      ItemContainerStyle="{StaticResource ChatItem}"
+                      Grid.Row="1"
+                      />
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource MessageBox}"
+                    Grid.ColumnSpan="2"
+                    Height="50" Margin="0,10,0,10"
+                         />
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            >
+
+                    <Image Source="/Icons/plus.png" Width="20" Height="20"/>
+
+                    <Button Command="{Binding SendCommand}" Width="20" Height="20">
+                        <Image Source="/Icons/Send.png" Width="20" Height="20"/>
+                    </Button>
+
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

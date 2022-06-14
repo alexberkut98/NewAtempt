@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Мы имеем дело с одной из двух ситуаций-->
+    <Style TargetType="ListViewItem" x:Key="ChatItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label 
+                            Content="{Binding UserName}"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"
+                            />
+
+                            <Label 
+                            Content="{Binding Time}"
+                            Foreground="Gray"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"
+                            />
+
+                            <Label 
+                            Content="{Binding Message}"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"
+                            />
+                        </StackPanel>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Resources>
+            <ControlTemplate x:Key="CustomRow">
+                <StackPanel Orientation="Horizontal">
+                    <Label 
+                        Content="{Binding Message}"
+                        Foreground="White"
+                           
+                           />
+                    <Label 
+                            Content="{Binding UserName}"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"
+                            />
+
+                    <Label 
+                            Content="{Binding Time}"
+                            Foreground="Gray"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"
+                            />
+                </StackPanel>
+            </ControlTemplate>
+        </Style.Resources>
+
+        <!--DataTrigger отслеживает изменение свойств, которые необязательно должны представлять свойства зависимостей.-->
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding FirstMessage}" Value="False">
+                <Setter Property="Template" Value ="{StaticResource CustomRow}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Vis,UpdateSourceTrigger=PropertyChanged}" Value="1">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Vis,UpdateSourceTrigger=PropertyChanged}" Value="0">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
